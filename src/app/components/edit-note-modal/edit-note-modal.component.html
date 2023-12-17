@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Nota</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Título</ion-label>
+    <ion-input [(ngModel)]="note.title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Descripción</ion-label>
+    <ion-textarea [(ngModel)]="note.description" auto-grow="true"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Imagen</ion-label>
+    <ion-button color="danger" (click)="removePhoto()" [disabled]="isPhotoButtonDisabled()">Borrar Imagen</ion-button>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Ubicación</ion-label>
+    <ion-button color="danger" (click)="removeLocation()" [disabled]="isLocationButtonDisabled()">Borrar Ubicación</ion-button>
+  </ion-item>
+
+  <ion-row>
+    <ion-col>
+      <ion-button mode="ios" (click)="saveChanges()">Guardar</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button style="transform: translateX(65px) !important;" mode="ios" (click)="discardChanges()">Descartar</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

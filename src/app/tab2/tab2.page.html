@@ -1,17 +1,52 @@
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /></head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Tab 2
+      Tareas
     </ion-title>
   </ion-toolbar>
-</ion-header>
+  <ion-progress-bar *ngIf="isUploading" type="indeterminate" color="warning"></ion-progress-bar>
+</ion-header> 
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <form [formGroup]="form" (ngSubmit)="saveNote()">
+    <ion-item>
+      <ion-label>
+        Title
+      </ion-label>
+      <ion-input label="Title" type="text" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Description
+      </ion-label>
+      <ion-textarea label="Description" formControlName="description"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Date
+      </ion-label>
+      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime id="datetime"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-button mode="ios" slot="start" (click)="locate()">
+        <ion-icon slot="icon-only" name="compass"></ion-icon>
+      </ion-button>
+      <ion-button mode="ios" slot="end" (click)="takePic()">
+        <ion-icon slot="icon-only" name="image"></ion-icon>
+      </ion-button>
     </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
-</ion-content>
+    <ion-button type="submit" expand="block" shape="round" [disabled]="!form.valid" [disabled]="isUploading">Submit</ion-button>
+  </form>
+  <div *ngIf="imageUrl" class="image-container">
+    <img [src]="imageUrl" alt="Note Image" />
+  </div>
+  <div #map id="map"></div>
+  </ion-content>

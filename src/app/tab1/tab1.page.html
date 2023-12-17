@@ -1,17 +1,66 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Notas
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list class="no-lines">
+    @defer (when this.notesList; on timer(1s)) {
+    @for (note of _notes$ | async;track note.key){
+      <ion-item-sliding (ionSwipe)="onItemSlide($event, note)">
+        <ion-item-options side="start">
+          <ion-item-option color="primary" expandable>
+            <ion-icon slot="start" name="create" (click)="editNote(note)" style="zoom: 1.5;"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      
+        <ion-item lines="none" (click)="showNoteContent(note)">
+          <!-- Utiliza *ngIf para renderizar contenido condicionalmente -->
+          <ion-card *ngIf="!note.img; else withImage">
+            <ion-card-header>
+              <ion-card-title>{{note.title}}</ion-card-title>
+              <ion-card-subtitle style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{note.description}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              {{note.date}}
+            </ion-card-content>
+          </ion-card>
+      
+          <!-- Plantilla para notas con imagen -->
+          <ng-template #withImage>
+            <ion-card>
+              <img [src]="note.img" alt="Image" />
+              <ion-card-header>
+                <ion-card-title>{{note.title}}</ion-card-title>
+                <ion-card-subtitle style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{note.description}}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                {{note.date}}
+              </ion-card-content>
+            </ion-card>
+          </ng-template>
+        </ion-item>
+      
+        <ion-item-options side="end">
+          <ion-item-option color="danger" expandable>
+            <ion-icon slot="start" name="trash" style="zoom: 1.5;"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>      
+  }
+  } @placeholder (minimum 1000ms) {
+  <ion-spinner name="dots"></ion-spinner>
+  }
+  </ion-list>
+  @if(isInfiniteScrollAvailable){
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more notes..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
 </ion-content>

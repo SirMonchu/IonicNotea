@@ -24,3 +24,42 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+.exitToast {
+    --background: rgba(255, 255, 255, 0.95);
+    --color: rgba(0, 0, 0);
+    --border-radius: 15px;
+    --max-width: 200px;
+    --max-height: 60px;
+    transform: translateY(-55px) !important;
+  };
+
+  .note-alert {
+    --ion-color-base: #000000; /* Color de texto base */
+    --ion-color-primary: #007aff; /* Color primario (puedes ajustar según tus necesidades) */
+    #map { height: 220px; };
+  
+    .alert-wrapper {
+      border-radius: 30px;
+    }
+  
+    .alert-title {
+      font-size: 20px;
+    }
+  
+    .alert-message {
+      font-size: 16px;
+    }
+  
+    .alert-button-group {
+      display: flex;
+      flex-direction: column-reverse; /* Alinea los botones en la parte inferior */
+      text-align: center; /* Alinea el texto de los botones en el centro */
+    }
+  
+    .button {
+      color: #007aff;
+      font-weight: bold;
+      width: 100%; /* Hace que el botón ocupe todo el ancho */
+    }
+  }
