@@ -1,9 +1,10 @@
 {
-  "name": "helloworld",
+  "name": "NoteA",
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular-standalone"
+  "type": "angular-standalone",
+  "innerHTMLTemplatesEnabled": true
 }
 
 

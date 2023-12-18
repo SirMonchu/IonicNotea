@@ -12,6 +12,13 @@ import { IonicSafeString } from '@ionic/core';
 import * as L from 'leaflet';
 import { ToastController } from '@ionic/angular';
 import { EditNoteModalComponent } from '../components/edit-note-modal/edit-note-modal.component';
+import { IonicConfig, setupConfig } from '@ionic/core';
+
+const config: IonicConfig = {
+  innerHTMLTemplatesEnabled: true,
+};
+
+setupConfig(config);
 
 @Component({
   selector: 'app-tab1',

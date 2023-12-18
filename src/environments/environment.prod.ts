@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
+  ionicConfig: {
+    innerHTMLTemplatesEnabled: true,
+  },
   firebaseConfig : {
     apiKey: "AIzaSyCwYPusPTKqZfFNQedWndG7L6jH7mcbxa4",
     authDomain: "notea2324-14003.firebaseapp.com",

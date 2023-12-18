@@ -1,4 +1,4 @@
-import { NgModule, enableProdMode, importProvidersFrom } from '@angular/core';
+import { NgModule, enableProdMode, importProvidersFrom, isDevMode } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
@@ -18,13 +18,10 @@ import { IonicModule } from '@ionic/angular';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { IonicConfig, setupConfig } from '@ionic/core';
+import { provideServiceWorker } from '@angular/service-worker';
 
 // Call the element loader before the bootstrapModule/bootstrapApplication call
 defineCustomElements(window);
-
-if (environment.production) {
-  enableProdMode();
-}
 
 const config: IonicConfig = {
   innerHTMLTemplatesEnabled: true,
@@ -32,19 +29,27 @@ const config: IonicConfig = {
 
 setupConfig(config);
 
+if (environment.production) {
+  enableProdMode();
+}
 
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    importProvidersFrom(provideFirebaseApp(()=>initializeApp(environment.firebaseConfig))),
-    importProvidersFrom(provideFirestore(()=>getFirestore())),
+    importProvidersFrom(provideFirebaseApp(() => initializeApp(environment.firebaseConfig))),
+    importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(AngularFirestoreModule),
     importProvidersFrom(AngularFireModule.initializeApp(environment.firebaseConfig)),
     importProvidersFrom(IonicModule.forRoot({})),
     importProvidersFrom(provideFirebaseApp(() => initializeApp(environment.firebaseConfig))),
     importProvidersFrom(provideStorage(() => getStorage())),
     provideRouter(routes),
-  ],
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000'
+    }),
+    provideIonicAngular({innerHTMLTemplatesEnabled: true})
+],
 });
 
